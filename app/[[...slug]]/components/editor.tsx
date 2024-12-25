@@ -7,6 +7,7 @@ import { json } from '@codemirror/lang-json';
 import { yaml } from '@codemirror/lang-yaml';
 import { StreamLanguage } from '@codemirror/language';
 import { properties } from '@codemirror/legacy-modes/mode/properties';
+import { useTheme } from 'next-themes';
 
 export const Editor = ({
   value,
@@ -25,6 +26,7 @@ export const Editor = ({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => {
+  const { theme } = useTheme();
   return (
     <Modal.Root open={open} onOpenChange={onOpenChange}>
       <Modal.Content className='fixed inset-8 flex size-[calc(100%-4rem)] h-[calc(100%-4rem)] max-w-full flex-col'>
@@ -34,6 +36,7 @@ export const Editor = ({
             className='h-full bg-transparent'
             value={value}
             height='100%'
+            theme={theme === 'dark' ? 'dark' : 'light'}
             onChange={onChange}
             extensions={[json(), yaml(), StreamLanguage.define(properties)]}
           />

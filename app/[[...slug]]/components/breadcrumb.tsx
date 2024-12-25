@@ -2,6 +2,7 @@ import { RiArrowRightSLine, RiHomeSmile2Line } from '@remixicon/react';
 
 import * as Breadcrumb from '@/components/ui/breadcrumb';
 import Link from 'next/link';
+import { Fragment } from 'react';
 
 export function BreadcrumbLite({ path }: { path: string }) {
   return (
@@ -15,20 +16,25 @@ export function BreadcrumbLite({ path }: { path: string }) {
       <Breadcrumb.ArrowIcon as={RiArrowRightSLine} />
 
       {path.split('/').map((item, index) => (
-        <Breadcrumb.Item
-          asChild
-          active={index === path.split('/').length - 1}
-          key={item}
-        >
-          <Link
-            href={`/${path
-              .split('/')
-              .slice(0, index + 1)
-              .join('/')}`}
+        <Fragment key={item}>
+          <Breadcrumb.Item
+            asChild
+            active={index === path.split('/').length - 1}
+            key={item}
           >
-            {decodeURIComponent(item)}
-          </Link>
-        </Breadcrumb.Item>
+            <Link
+              href={`/${path
+                .split('/')
+                .slice(0, index + 1)
+                .join('/')}`}
+            >
+              {decodeURIComponent(item)}
+            </Link>
+          </Breadcrumb.Item>
+          {index !== path.split('/').length - 1 && (
+            <Breadcrumb.ArrowIcon as={RiArrowRightSLine} />
+          )}
+        </Fragment>
       ))}
     </Breadcrumb.Root>
   );
