@@ -79,7 +79,7 @@ export function File({
       <p
         onClick={() => setIsSelected(!isSelected)}
         className={cnExt(
-          'max-w-[160px] truncate rounded-md px-0.5',
+          'max-w-[160px] break-all rounded-md px-0.5',
           isSelected && 'cursor-default bg-primary-base text-static-white',
         )}
       >
