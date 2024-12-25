@@ -159,7 +159,7 @@ export function Folder({
         </Button.Root>
         <p
           className={cnExt(
-            'rounded-md px-0.5 focus:outline-none',
+            'max-w-[160px] truncate rounded-md px-0.5 focus:outline-none',
             isSelected && 'cursor-default bg-primary-base text-static-white',
             rename.path === path && 'bg-bg-soft-200 text-primary-base',
           )}
