@@ -9,6 +9,7 @@ import { NotificationProvider } from '@/components/ui/notification-provider';
 import Header from '@/components/header';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { ORPCProvider } from '@/orpc/client';
+import { Suspense } from 'react';
 
 const inter = FontSans({
   subsets: ['latin'],
@@ -39,17 +40,19 @@ export default function RootLayout({
     >
       <body className='bg-bg-white-0 text-text-strong-950'>
         <ORPCProvider>
-          <NuqsAdapter>
-            <ThemeProvider attribute='class'>
-              <TooltipProvider>
-                <div className='flex min-h-screen flex-col'>
-                  <Header />
-                  <main className='flex flex-1 flex-col'>{children}</main>
-                </div>
-              </TooltipProvider>
-            </ThemeProvider>
-            <NotificationProvider />
-          </NuqsAdapter>
+          <Suspense>
+            <NuqsAdapter>
+              <ThemeProvider attribute='class'>
+                <TooltipProvider>
+                  <div className='flex min-h-screen flex-col'>
+                    <Header />
+                    <main className='flex flex-1 flex-col'>{children}</main>
+                  </div>
+                </TooltipProvider>
+              </ThemeProvider>
+              <NotificationProvider />
+            </NuqsAdapter>
+          </Suspense>
         </ORPCProvider>
       </body>
     </html>
