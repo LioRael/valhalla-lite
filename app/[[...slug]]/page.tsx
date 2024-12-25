@@ -157,6 +157,7 @@ export default function Home({
           .map((file) =>
             file.isDirectory ? (
               <Folder
+                slug={slug.join('/')}
                 rename={rename}
                 renameDispatch={renameDispatch}
                 setContextMenu={setContextMenu}

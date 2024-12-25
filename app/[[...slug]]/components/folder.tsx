@@ -14,6 +14,7 @@ export function Folder({
   setContextMenu,
   rename,
   renameDispatch,
+  slug,
 }: {
   children: React.ReactNode;
   path: string;
@@ -32,6 +33,7 @@ export function Folder({
     selected: string[];
     position: { x: number; y: number };
   }) => void;
+  slug: string;
 }) {
   const router = useRouter();
   const isSelected = selected.includes(path);
@@ -57,7 +59,7 @@ export function Folder({
   }, [pendingContextMenu, selected, setContextMenu]);
 
   const handleDoubleClick = () => {
-    router.push(`./${path}`);
+    router.push(`./${slug}/${path}`);
   };
 
   const handleClick = (e: React.MouseEvent) => {
