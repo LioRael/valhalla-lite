@@ -149,7 +149,7 @@ export function Folder({
       <div className='flex flex-col items-center justify-center gap-1'>
         <Button.Root
           className={cnExt(
-            'size-[160px] hover:bg-transparent',
+            'size-[100px] hover:bg-transparent',
             isSelected && 'bg-bg-soft-200 hover:bg-bg-soft-200',
           )}
           mode='ghost'
@@ -161,7 +161,7 @@ export function Folder({
         </Button.Root>
         <p
           className={cnExt(
-            'max-w-[160px] break-all rounded-md px-0.5 focus:outline-none',
+            'line-clamp-3 max-w-[100px] break-all rounded-md px-0.5 focus:outline-none',
             isSelected && 'cursor-default bg-primary-base text-static-white',
             rename.path === path && 'bg-bg-soft-200 text-primary-base',
           )}

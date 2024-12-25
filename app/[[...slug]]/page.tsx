@@ -127,7 +127,7 @@ export default function Home({
         <BreadcrumbLite path={slug.join('/')} />
         <Upload slug={slug} />
       </div>
-      <div className='grid w-full grid-cols-2 gap-4 md:grid-cols-6'>
+      <div className='grid w-full grid-cols-2 gap-4 md:grid-cols-10'>
         <Editor
           value={value}
           onChange={setValue}

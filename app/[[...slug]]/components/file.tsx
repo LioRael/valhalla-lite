@@ -62,7 +62,7 @@ export function File({
     <div className='flex flex-col items-center justify-center gap-1'>
       <Button.Root
         className={cnExt(
-          'h-[160px] w-[160px] hover:bg-transparent',
+          'h-[100px] w-[100px] hover:bg-transparent',
           isSelected && 'bg-bg-soft-200 hover:bg-bg-soft-200',
         )}
         mode='ghost'
@@ -70,7 +70,7 @@ export function File({
         onClick={() => setIsSelected(!isSelected)}
       >
         <Button.Icon
-          className='h-full w-[100px]'
+          className='h-full w-[50px]'
           as={FileFormatIcon.Root}
           format={ext}
           color={colorMap[ext || 'red']}
@@ -79,7 +79,7 @@ export function File({
       <p
         onClick={() => setIsSelected(!isSelected)}
         className={cnExt(
-          'max-w-[160px] break-all rounded-md px-0.5',
+          'line-clamp-3 max-w-[100px] break-all rounded-md px-0.5',
           isSelected && 'cursor-default bg-primary-base text-static-white',
         )}
       >
