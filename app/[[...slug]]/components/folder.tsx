@@ -3,7 +3,7 @@
 import * as Button from '@/components/ui/button';
 import { cnExt } from '@/utils/cn';
 import { RiFolder3Fill } from '@remixicon/react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 
 export function Folder({
@@ -14,7 +14,6 @@ export function Folder({
   setContextMenu,
   rename,
   renameDispatch,
-  slug,
 }: {
   children: React.ReactNode;
   path: string;
@@ -33,8 +32,9 @@ export function Folder({
     selected: string[];
     position: { x: number; y: number };
   }) => void;
-  slug: string;
 }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const isSelected = selected.includes(path);
 
@@ -59,7 +59,9 @@ export function Folder({
   }, [pendingContextMenu, selected, setContextMenu]);
 
   const handleDoubleClick = () => {
-    router.push(`/${slug}/${path}`);
+    router.push(
+      `${pathname === '/' ? '' : pathname}/${path}?${searchParams.toString()}`,
+    );
   };
 
   const handleClick = (e: React.MouseEvent) => {

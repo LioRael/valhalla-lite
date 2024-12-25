@@ -1,7 +1,7 @@
 import * as FileFormatIcon from '@/components/ui/file-format-icon';
 import * as Button from '@/components/ui/button';
 import { cnExt } from '@/utils/cn';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const colorMap: Record<
   string,
@@ -46,16 +46,65 @@ export function File({
   path,
   children,
   onOpen,
+  selected,
+  dispatch,
+  setContextMenu,
 }: {
   path: string;
   children: React.ReactNode;
   onOpen: () => void;
+  selected: string[];
+  dispatch: (action: {
+    type: 'add' | 'remove' | 'clear';
+    value?: string;
+  }) => void;
+  setContextMenu: (action: {
+    type: 'open' | 'close';
+    selected: string[];
+    position: { x: number; y: number };
+  }) => void;
 }) {
-  const [isSelected, setIsSelected] = useState(false);
+  const [pendingContextMenu, setPendingContextMenu] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+  const isSelected = selected.includes(path);
 
-  const handleDoubleClick = () => {
-    onOpen();
+  useEffect(() => {
+    if (pendingContextMenu) {
+      setContextMenu({
+        type: 'open',
+        selected,
+        position: pendingContextMenu,
+      });
+      setPendingContextMenu(null);
+    }
+  }, [pendingContextMenu, selected, setContextMenu]);
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (selected.length > 0 && !e.shiftKey) {
+      dispatch({ type: 'clear' });
+      dispatch({ type: 'add', value: path });
+      return;
+    }
+    dispatch({ type: isSelected ? 'remove' : 'add', value: path });
   };
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (
+      selected.length === 0 ||
+      (selected.length !== 0 && !selected.includes(path))
+    ) {
+      dispatch({ type: 'clear' });
+      dispatch({ type: 'add', value: path });
+    }
+
+    setPendingContextMenu({ x: e.clientX, y: e.clientY });
+  };
+
   const ext = path.split('.').pop();
 
   return (
@@ -66,8 +115,9 @@ export function File({
           isSelected && 'bg-bg-soft-200 hover:bg-bg-soft-200',
         )}
         mode='ghost'
-        onDoubleClick={handleDoubleClick}
-        onClick={() => setIsSelected(!isSelected)}
+        onDoubleClick={onOpen}
+        onClick={handleClick}
+        onContextMenu={handleContextMenu}
       >
         <Button.Icon
           className='h-full w-[50px]'
@@ -77,7 +127,8 @@ export function File({
         />
       </Button.Root>
       <p
-        onClick={() => setIsSelected(!isSelected)}
+        onClick={handleClick}
+        onContextMenu={handleContextMenu}
         className={cnExt(
           'line-clamp-3 max-w-[100px] break-all rounded-md px-0.5',
           isSelected && 'cursor-default bg-primary-base text-static-white',

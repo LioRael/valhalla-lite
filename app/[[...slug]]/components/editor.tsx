@@ -22,11 +22,24 @@ export const Editor = ({
   onChange: (value: string) => void;
   title: string;
   description: string;
-  onSave: () => void;
+  onSave: (close: boolean) => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => {
   const { theme } = useTheme();
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        onSave(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onSave]);
+
   return (
     <Modal.Root open={open} onOpenChange={onOpenChange}>
       <Modal.Content className='fixed inset-8 flex size-[calc(100%-4rem)] h-[calc(100%-4rem)] max-w-full flex-col'>
@@ -42,7 +55,7 @@ export const Editor = ({
           />
         </Modal.Body>
         <Modal.Footer className='mt-auto'>
-          <Button.Root className='ml-auto' onClick={onSave}>
+          <Button.Root className='ml-auto' onClick={() => onSave(false)}>
             <Button.Icon as={RiSaveLine} />
             Save
           </Button.Root>

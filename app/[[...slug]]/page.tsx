@@ -56,11 +56,14 @@ export default function Home({
     }
   }, [openedFile, fileContent]);
 
-  const handleSave = () => {
+  const handleSave = (close: boolean) => {
     writeFile({
       filePath: `${slug.join('/')}/${openedFile}`,
       content: value,
     });
+    if (close) {
+      setOpenedFile(null);
+    }
   };
 
   const { contextMenu, setContextMenu } = useContextMenu();
@@ -157,7 +160,6 @@ export default function Home({
           .map((file) =>
             file.isDirectory ? (
               <Folder
-                slug={slug.join('/')}
                 rename={rename}
                 renameDispatch={renameDispatch}
                 setContextMenu={setContextMenu}
@@ -173,6 +175,9 @@ export default function Home({
                 key={file.name}
                 path={file.name}
                 onOpen={() => setOpenedFile(file.name)}
+                selected={selected}
+                dispatch={dispatch}
+                setContextMenu={setContextMenu}
               >
                 {file.name}
               </File>

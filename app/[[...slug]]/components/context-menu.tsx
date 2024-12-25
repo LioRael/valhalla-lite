@@ -11,6 +11,7 @@ import * as Modal from '@/components/ui/modal';
 import * as Input from '@/components/ui/input';
 import * as Button from '@/components/ui/button';
 import { useMove } from '../hooks/use-move';
+import { useDelete } from '../hooks/use-delete';
 
 export function ContextMenu({
   selected,
@@ -66,10 +67,7 @@ export function ContextMenu({
             />
           )}
           <MoveTo selected={selected} slug={slug} />
-          <Dropdown.Item>
-            <Dropdown.ItemIcon as={RiDeleteBinFill} />
-            删除
-          </Dropdown.Item>
+          <Delete selected={selected} slug={slug} />
         </Dropdown.Group>
       </Dropdown.Content>
     </Dropdown.Root>
@@ -146,6 +144,30 @@ const MoveTo = ({ selected, slug }: { selected: string[]; slug: string }) => {
           >
             确定
           </Button.Root>
+        </Modal.Footer>
+      </Modal.Content>
+    </Modal.Root>
+  );
+};
+
+const Delete = ({ selected, slug }: { selected: string[]; slug: string }) => {
+  const [open, setOpen] = useState(false);
+  const { deleteFiles } = useDelete(selected, slug, () => setOpen(false));
+  return (
+    <Modal.Root open={open} onOpenChange={setOpen}>
+      <Modal.Trigger asChild>
+        <Dropdown.Item onClick={deleteFiles}>
+          <Dropdown.ItemIcon as={RiDeleteBinFill} />
+          删除
+        </Dropdown.Item>
+      </Modal.Trigger>
+      <Modal.Content>
+        <Modal.Header title='删除' description='确定要删除吗？' />
+        <Modal.Footer>
+          <Modal.Close asChild>
+            <Button.Root>取消</Button.Root>
+          </Modal.Close>
+          <Button.Root onClick={deleteFiles}>确定</Button.Root>
         </Modal.Footer>
       </Modal.Content>
     </Modal.Root>

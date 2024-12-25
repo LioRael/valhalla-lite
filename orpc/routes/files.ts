@@ -114,4 +114,17 @@ export const filesRouter = os.router({
     .func(({ filePath, content }, { basePath }) => {
       fs.writeFileSync(path.join(basePath, filePath), content);
     }),
+
+  delete: os
+    .use(baseMiddleware)
+    .input(
+      z.object({
+        filePath: z.array(z.string()),
+      }),
+    )
+    .func(({ filePath }, { basePath }) => {
+      filePath.forEach((file) => {
+        fs.removeSync(path.join(basePath, file));
+      });
+    }),
 });
