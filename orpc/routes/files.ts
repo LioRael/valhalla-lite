@@ -94,7 +94,12 @@ export const filesRouter = os.router({
       }),
     )
     .func(({ filePath }, { basePath }) => {
-      return fs.readFileSync(path.join(basePath, filePath), 'utf-8');
+      const safeExt = ['txt', 'json', 'yaml', 'properties'];
+      const ext = path.extname(filePath).slice(1);
+      if (safeExt.includes(ext)) {
+        return fs.readFileSync(path.join(basePath, filePath), 'utf-8');
+      }
+      return null;
     }),
 
   write: os
