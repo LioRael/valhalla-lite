@@ -59,7 +59,7 @@ export function Folder({
   }, [pendingContextMenu, selected, setContextMenu]);
 
   const handleDoubleClick = () => {
-    router.push(`./${slug}/${path}`);
+    router.push(`/${slug}/${path}`);
   };
 
   const handleClick = (e: React.MouseEvent) => {

@@ -14,6 +14,7 @@ export const filesRouter = os.router({
     )
     .func(({ path }, { basePath }) => {
       const fullPath = `${basePath}/${path}`;
+
       return fs
         .readdirSync(fullPath)
         .filter((file) => !file.startsWith('.'))
