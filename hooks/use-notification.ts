@@ -10,6 +10,7 @@ type NotificationPropsWithId = NotificationProps & {
   id: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const actionTypes = {
   ADD_NOTIFICATION: 'ADD_NOTIFICATION',
   UPDATE_NOTIFICATION: 'UPDATE_NOTIFICATION',
@@ -199,3 +200,4 @@ function useNotification() {
 }
 
 export { notification, useNotification };
+export type NotificationAction = typeof notification;

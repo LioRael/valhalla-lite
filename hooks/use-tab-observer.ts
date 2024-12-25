@@ -47,7 +47,7 @@ export function useTabObserver({ onActiveTabChange }: TabObserverOptions = {}) {
       resizeObserver.disconnect();
       mutationObserver.disconnect();
     };
-  }, []);
+  }, [handleUpdate]);
 
   return { mounted, listRef };
 }
