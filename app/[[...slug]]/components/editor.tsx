@@ -27,9 +27,9 @@ export const Editor = ({
 }) => {
   return (
     <Modal.Root open={open} onOpenChange={onOpenChange}>
-      <Modal.Content className='fixed inset-8 flex size-[calc(100%-4rem)] max-w-full flex-col'>
+      <Modal.Content className='fixed inset-8 flex size-[calc(100%-4rem)] h-[calc(100%-4rem)] max-w-full flex-col'>
         <Modal.Header title={title} description={description} />
-        <Modal.Body className='flex-1 p-0'>
+        <Modal.Body className='flex-1 overflow-y-auto p-0'>
           <CodeMirror
             className='h-full bg-transparent'
             value={value}
