@@ -22,9 +22,14 @@ export default function Home({
   const unslug = slug.map(decodeURIComponent);
   const { notification } = useNotification();
   const { selected, dispatch } = useSelected();
-  const { data: files } = orpc.files.getFiles.useQuery({
-    path: unslug.join('/'),
-  });
+  const { data: files } = orpc.files.getFiles.useQuery(
+    {
+      path: unslug.join('/'),
+    },
+    {
+      refetchInterval: 2000,
+    },
+  );
   const [search] = useQueryState('search', {
     defaultValue: '',
   });
