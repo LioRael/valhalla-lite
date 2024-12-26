@@ -5,6 +5,7 @@ import { cnExt } from '@/utils/cn';
 import { RiFolder3Fill } from '@remixicon/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
+import * as Tooltip from '@/components/ui/tooltip';
 
 export function Folder({
   children,
@@ -161,31 +162,37 @@ export function Folder({
         >
           <Button.Icon className='size-full' as={RiFolder3Fill} />
         </Button.Root>
-        <p
-          className={cnExt(
-            'line-clamp-3 max-w-[100px] break-all rounded-md px-0.5 focus:outline-none',
-            isSelected && 'cursor-default bg-primary-base text-static-white',
-            rename.path === path && 'bg-bg-soft-200 text-primary-base',
-          )}
-          contentEditable={rename.path === path}
-          ref={inputRef}
-          onClick={handleClick}
-          onContextMenu={handleContextMenu}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              const newName = e.currentTarget.textContent;
-              renameDispatch({ type: 'finish', value: newName || '' });
-            }
-            if (e.key === 'Escape') {
-              e.preventDefault();
-              renameDispatch({ type: 'quit' });
-            }
-          }}
-          suppressContentEditableWarning={true}
-        >
-          {children}
-        </p>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>
+            <p
+              className={cnExt(
+                'line-clamp-3 max-w-[100px] break-all rounded-md px-0.5 focus:outline-none',
+                isSelected &&
+                  'cursor-default bg-primary-base text-static-white',
+                rename.path === path && 'bg-bg-soft-200 text-primary-base',
+              )}
+              contentEditable={rename.path === path}
+              ref={inputRef}
+              onClick={handleClick}
+              onContextMenu={handleContextMenu}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  const newName = e.currentTarget.textContent;
+                  renameDispatch({ type: 'finish', value: newName || '' });
+                }
+                if (e.key === 'Escape') {
+                  e.preventDefault();
+                  renameDispatch({ type: 'quit' });
+                }
+              }}
+              suppressContentEditableWarning={true}
+            >
+              {children}
+            </p>
+          </Tooltip.Trigger>
+          <Tooltip.Content>{children}</Tooltip.Content>
+        </Tooltip.Root>
       </div>
     </div>
   );

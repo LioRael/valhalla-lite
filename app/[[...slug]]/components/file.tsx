@@ -2,7 +2,7 @@ import * as FileFormatIcon from '@/components/ui/file-format-icon';
 import * as Button from '@/components/ui/button';
 import { cnExt } from '@/utils/cn';
 import { useState, useEffect } from 'react';
-
+import * as Tooltip from '@/components/ui/tooltip';
 const colorMap: Record<
   string,
   | 'red'
@@ -126,16 +126,22 @@ export function File({
           color={colorMap[ext || 'red']}
         />
       </Button.Root>
-      <p
-        onClick={handleClick}
-        onContextMenu={handleContextMenu}
-        className={cnExt(
-          'line-clamp-3 max-w-[100px] break-all rounded-md px-0.5',
-          isSelected && 'cursor-default bg-primary-base text-static-white',
-        )}
-      >
-        {children}
-      </p>
+
+      <Tooltip.Root>
+        <Tooltip.Trigger asChild>
+          <p
+            onClick={handleClick}
+            onContextMenu={handleContextMenu}
+            className={cnExt(
+              'line-clamp-3 max-w-[100px] break-all rounded-md px-0.5',
+              isSelected && 'cursor-default bg-primary-base text-static-white',
+            )}
+          >
+            {children}
+          </p>
+        </Tooltip.Trigger>
+        <Tooltip.Content>{children}</Tooltip.Content>
+      </Tooltip.Root>
     </div>
   );
 }
