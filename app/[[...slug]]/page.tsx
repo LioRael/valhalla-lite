@@ -19,23 +19,24 @@ export default function Home({
 }: {
   params: { slug: string[] };
 }) {
+  const unslug = slug.map(decodeURIComponent);
   const { notification } = useNotification();
   const { selected, dispatch } = useSelected();
   const { data: files } = orpc.files.getFiles.useQuery({
-    path: slug.join('/'),
+    path: unslug.join('/'),
   });
   const [search] = useQueryState('search', {
     defaultValue: '',
   });
   const { rename, dispatch: renameDispatch } = useRename(
     dispatch,
-    slug.join('/'),
+    unslug.join('/'),
   );
 
   const [openedFile, setOpenedFile] = useState<string | null>(null);
 
   const { data: fileContent } = orpc.files.read.useQuery({
-    filePath: `${slug.join('/')}/${openedFile}`,
+    filePath: `${unslug.join('/')}/${openedFile}`,
   });
 
   const [value, setValue] = useState<string>(fileContent || '');
@@ -58,7 +59,7 @@ export default function Home({
 
   const handleSave = (close: boolean) => {
     writeFile({
-      filePath: `${slug.join('/')}/${openedFile}`,
+      filePath: `${unslug.join('/')}/${openedFile}`,
       content: value,
     });
     if (close) {
@@ -127,21 +128,21 @@ export default function Home({
         />
       )}
       <div className='flex items-center justify-between gap-2'>
-        <BreadcrumbLite path={slug.join('/')} />
-        <Upload slug={slug} />
+        <BreadcrumbLite path={unslug.join('/')} />
+        <Upload slug={unslug} />
       </div>
       <div className='grid w-full grid-cols-2 gap-4 md:grid-cols-10'>
         <Editor
           value={value}
           onChange={setValue}
-          title={`编辑 ${slug.join('/')}/${openedFile}`}
+          title={`编辑 ${unslug.join('/')}/${openedFile}`}
           description='请编辑文件内容'
           onSave={handleSave}
           open={!!openedFile}
           onOpenChange={closeEditor}
         />
         <ContextMenu
-          slug={slug.join('/')}
+          slug={unslug.join('/')}
           renameDispatch={renameDispatch}
           selected={contextMenu.selected}
           position={contextMenu.position}
