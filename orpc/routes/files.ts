@@ -83,7 +83,7 @@ export const filesRouter = os.router({
       for (const file of files) {
         const buffer = await file.arrayBuffer();
         const filePath = path.join(fullPath, file.name);
-        fs.writeFileSync(filePath, Buffer.from(buffer));
+        fs.writeFileSync(filePath, Buffer.from(buffer), { flag: 'w' });
       }
     }),
 
