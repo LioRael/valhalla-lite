@@ -53,9 +53,9 @@ export const Editor = ({
             theme={theme === 'dark' ? 'dark' : 'light'}
             onChange={onChange}
             extensions={[
+              xml(),
               json(),
               yaml(),
-              xml(),
               StreamLanguage.define(properties),
             ]}
           />
