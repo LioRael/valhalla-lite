@@ -48,7 +48,6 @@ export default function Home({
 
   const { mutate: writeFile } = orpc.files.write.useMutation({
     onSuccess: () => {
-      setOpenedFile(null);
       notification({
         title: '保存成功',
         description: '文件已保存',
