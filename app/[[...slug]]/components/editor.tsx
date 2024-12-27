@@ -5,6 +5,7 @@ import * as Button from '@/components/ui/button';
 import { RiSaveLine } from '@remixicon/react';
 import { json } from '@codemirror/lang-json';
 import { yaml } from '@codemirror/lang-yaml';
+import { xml } from '@codemirror/lang-xml';
 import { StreamLanguage } from '@codemirror/language';
 import { properties } from '@codemirror/legacy-modes/mode/properties';
 import { useTheme } from 'next-themes';
@@ -51,7 +52,12 @@ export const Editor = ({
             height='100%'
             theme={theme === 'dark' ? 'dark' : 'light'}
             onChange={onChange}
-            extensions={[json(), yaml(), StreamLanguage.define(properties)]}
+            extensions={[
+              json(),
+              yaml(),
+              xml(),
+              StreamLanguage.define(properties),
+            ]}
           />
         </Modal.Body>
         <Modal.Footer className='mt-auto'>
